@@ -16,6 +16,7 @@ sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel li
 4. Move extracted folder to ~/deps/skia
 
 ## Compile the code!
+This will take a bit, but the wait is worth it! Just sit back patiently. Plug in your power supply, and grab your favorite drink. I recommend disabling "Suspend when laptop lid is closed" in Gnome Tweaks while you are compiling. This way you can just close your laptop lid and wait.
 ```shell
 cd aseprite
 mkdir build
