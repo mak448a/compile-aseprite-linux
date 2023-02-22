@@ -11,8 +11,9 @@ git clone --recursive https://github.com/aseprite/aseprite.git
 sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel
 ```
 1. Download the latest version of skia from here: https://github.com/aseprite/skia/releases
-2. Extract the file
-3. Move extracted folder to ~/deps/skia
+2. Note: VERY IMPORTANT! Download Skia-Linux-Release-x64-libc++.zip, not Skia-Linux-Release-x64-libstdc++.zip. If you download the wrong one, the whole build will fail.
+3. Extract the file
+4. Move extracted folder to ~/deps/skia
 
 ## Compile the code!
 ```shell
