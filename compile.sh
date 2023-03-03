@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd
+
 # Download skia
 wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip
 mkdir -p ~/deps/skia
