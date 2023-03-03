@@ -1,5 +1,5 @@
 # Compile Aseprite on Fedora
-Here's how to compile aseprite for free on Fedora 37. If you want to support the developers out, buy it on their website: https://aseprite.org
+Here's how to compile aseprite for free on Fedora 37. If you want to support the developers, buy it on their website: https://aseprite.org
 
 ## Clone repo
 ```shell
