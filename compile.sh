@@ -41,7 +41,8 @@ rm -rf deps
 
 mkdir -p Applications/aseprite
 
-mv -r aseprite/build Applications/aseprite
+mv aseprite/build/bin aseprite/build/aseprite
+mv aseprite/build/aseprite Applications/aseprite
 echo "Done compiling!"
 echo "The executable is stored in ~/Applications/aseprite. Have fun!"
 echo "You can move this folder anywhere."
