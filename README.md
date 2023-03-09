@@ -41,3 +41,7 @@ ninja aseprite
 
 ## Where is the executable?
 The executable is stored in aseprite/build/bin. Have fun!
+
+## Integrating with your desktop environment
+Download the aseprite.desktop file from this GitHub repository and move it to ~/.local/share/applications.
+Then, it should appear in your application menu!
