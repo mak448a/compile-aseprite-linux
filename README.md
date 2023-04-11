@@ -1,7 +1,7 @@
 # Compile Aseprite on Fedora
 Here's how to compile aseprite for free on Fedora 37. If you want to support the developers, buy it on their website: https://aseprite.org
 
-If this is too much for you, just run [this script.](compile.sh) Click view raw, and then press CTRL+S to save the file.
+Just run [this script.](compile.sh) Click view raw, and then press CTRL+S to save the file.
 
 ## Clone repo
 ```shell
