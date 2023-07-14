@@ -1,9 +1,9 @@
 [Desktop Entry]
 Name=Aseprite
 GenericName=Pixel Art Editor
-Exec=/home/mak448a/Applications/aseprite/aseprite
+Exec=~/Applications/aseprite/aseprite
 Terminal=false
-Icon=aseprite
+Icon=/home/mak448a/Applications/aseprite/data/icons/ase256.png
 Type=Application
-Categories=Image;Art;PixelArt;
+Categories=Graphics;3DGraphics;
 StartupWMClass=aseprite
