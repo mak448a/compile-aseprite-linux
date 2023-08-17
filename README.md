@@ -2,7 +2,7 @@
 Here's how to compile aseprite for free on Fedora. If you want to support the developers, buy it on their website: https://aseprite.org
 
 Just run [this script.](compile.sh) Click view raw, and then press CTRL+S to save the file.
-
+Please consider giving this repo a star if you found it helpful.
 
 ## Where is the executable?
 The executable is stored in aseprite/build/bin. Have fun!
