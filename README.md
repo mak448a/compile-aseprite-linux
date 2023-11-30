@@ -9,7 +9,7 @@ Go to your downloads folder and open up a terminal window. Type in these command
 Please consider giving this repo a star if you found it helpful.
 
 ## Where is the executable?
-The executable is stored in aseprite/build/bin. Have fun!
+The executable is stored in ~/Applications/aseprite. Have fun!
 
 ## Integrating with your desktop environment
 Download the aseprite.desktop file from this GitHub repository and move it to ~/.local/share/applications.
