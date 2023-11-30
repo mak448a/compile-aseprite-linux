@@ -13,4 +13,5 @@ The executable is stored in aseprite/build/bin. Have fun!
 
 ## Integrating with your desktop environment
 Download the aseprite.desktop file from this GitHub repository and move it to ~/.local/share/applications.
+Rename aseprite/build/bin to aseprite and move it to ~/Applications/aseprite.
 Then, it should appear in your application menu!
