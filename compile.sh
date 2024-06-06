@@ -14,7 +14,7 @@ echo "Enter sudo password to install dependencies. This is also a good time to p
 sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel git
 
 # Clone aseprite
-git clone --recursive https://github.com/aseprite/aseprite.git
+git clone --recursive https://github.com/aseprite/aseprite.git --depth=1
 
 echo "Finished downloading! Time to compile."
 
