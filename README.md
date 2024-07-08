@@ -14,3 +14,6 @@ The executable is stored in ~/Applications/aseprite. Have fun!
 ## Integrating with your desktop environment
 Download the aseprite.desktop file from this GitHub repository and move it to ~/.local/share/applications.
 Then, it should appear in your application menu!
+
+## Credits
+I copied the compile commands from https://github.com/aseprite/aseprite/blob/main/INSTALL.md and condensed them into this script.
