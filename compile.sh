@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# Check distro
+os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
+os_name="Ubuntu"
+
+# Return to home directory
 cd
 
 # Download skia
@@ -9,9 +14,27 @@ unzip Skia-Linux-Release-x64-libc++.zip -d ~/deps/skia
 # Clean up zip file
 rm Skia-Linux-Release-x64-libc++.zip
 
-# Install deps
+
 echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
-sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel git
+
+
+# Assign package manager to a variable
+if [[ "$os_name" == *"Fedora"* ]]; then
+    package_man="dnf"
+elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name == *"Mint"* ]]; then
+    package_man="apt"
+else
+    echo "Unsupported distro! If your distro supports APT or DNF, please manually set os_name='Ubuntu' for apt, or os_name='Fedora' at the top of the file. Copy the appropriate command and replace the 'os_name=' with the proper command. You can also open an issue ticket."
+    echo "Stopped installation! Please remove ~/deps."
+    exit 1
+fi
+
+# Install dependencies
+if [[ $package_man == "dnf" ]]; then
+  sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel git
+elif [[ $package_man == "apt" ]]; then
+  sudo apt-get install -y g++ clang libc++-dev libc++abi-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
+fi
 
 # Clone aseprite
 git clone --recursive https://github.com/aseprite/aseprite.git --depth=1
