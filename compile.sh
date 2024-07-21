@@ -2,7 +2,7 @@
 
 # Check distro
 os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
-os_name="Ubuntu"
+
 
 # Return to home directory
 cd
