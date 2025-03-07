@@ -5,5 +5,5 @@ Exec=~/Applications/aseprite/aseprite
 Terminal=false
 Icon=~/Applications/aseprite/data/icons/ase256.png
 Type=Application
-Categories=Graphics;3DGraphics;
+Categories=Graphics
 StartupWMClass=aseprite
