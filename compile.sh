@@ -1,19 +1,43 @@
 #!/bin/bash
 
+[[ -z "${XDG_DATA_HOME}" ]] && XDG_DATA_HOME="${HOME}/.local/share"
+
+INSTALL_DIR="${XDG_DATA_HOME}/aseprite"
+
+SIGNATURE_FILE="${INSTALL_DIR}/compile-aseprite-linux"
+
+if [[ -f "${SIGNATURE_FILE}" ]] ; then
+    read -e -p "aseprite already installed. update? (y/n): " choice
+    [[ "${choice}" == [Yy]* ]] \
+        || exit 0
+else
+    [[ -d "${INSTALL_DIR}" ]] \
+        && { echo "aseprite already installed to '${INSTALL_DIR}'. aborting" >&2 ; exit 1 ; }
+fi
+
+WORK_DIR=$(mktemp -d -t 'compile-aseprite-linux-XXXXX') \
+    || { echo "unable to create temp folder" >&2 ; exit 1 ; }
+
+cleanup() {
+    code=$?
+    echo "cleaning up"
+    pushd -0
+    dirs -c
+    rm -rf "${WORK_DIR}"
+    exit "${code}"
+}
+
+trap "cleanup" EXIT
+
+pushd "${WORK_DIR}"
+
 # Check distro
 os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
 
-
-# Return to home directory
-cd
-
 # Download skia
 wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip
-mkdir -p ~/deps/skia
-unzip Skia-Linux-Release-x64-libc++.zip -d ~/deps/skia
-# Clean up zip file
-rm Skia-Linux-Release-x64-libc++.zip
-
+mkdir ./skia
+unzip Skia-Linux-Release-x64-libc++.zip -d ./skia
 
 echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
 
@@ -41,9 +65,8 @@ git clone --recursive https://github.com/aseprite/aseprite.git --depth=1
 
 echo "Finished downloading! Time to compile."
 
-cd aseprite
-mkdir build
-cd build
+mkdir aseprite/build
+pushd aseprite/build
 export CC=clang
 export CXX=clang++
 cmake \
@@ -51,21 +74,21 @@ cmake \
   -DCMAKE_CXX_FLAGS:STRING=-stdlib=libc++ \
   -DCMAKE_EXE_LINKER_FLAGS:STRING=-stdlib=libc++ \
   -DLAF_BACKEND=skia \
-  -DSKIA_DIR=$HOME/deps/skia \
-  -DSKIA_LIBRARY_DIR=$HOME/deps/skia/out/Release-x64 \
-  -DSKIA_LIBRARY=$HOME/deps/skia/out/Release-x64/libskia.a \
+  -DSKIA_DIR="${WORK_DIR}/skia" \
+  -DSKIA_LIBRARY_DIR="${WORK_DIR}/skia/out/Release-x64" \
+  -DSKIA_LIBRARY="${WORK_DIR}/skia/out/Release-x64/libskia.a" \
   -G Ninja \
   ..
 ninja aseprite
+popd
 
-# Cleanup
-cd
-rm -rf deps
+rm -rf "${INSTALL_DIR}" \
+    || { echo "unable to clean up old install" >&2 ; exit 1 ; }
+mkdir -p "${INSTALL_DIR}" \
+    || { echo "unable to create install folder" >&2 ; exit 1 ; }
 
-mkdir -p Applications/aseprite
+mv aseprite/build/bin/* "${INSTALL_DIR}"
+touch "${SIGNATURE_FILE}"
 
-mv aseprite/build/bin aseprite/build/aseprite
-mv aseprite/build/aseprite ~/Applications/aseprite
 echo "Done compiling!"
-echo "The executable is stored in ~/Applications/aseprite. Have fun!"
-echo "You can move this folder anywhere."
+echo "The executable is stored in '${INSTALL_DIR}'. Have fun!"
