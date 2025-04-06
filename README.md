@@ -11,11 +11,11 @@ Please consider giving this repo a star if you found it helpful.
 If you encounter any errors, please report it in the issues tab.
 
 ## Where is the executable?
-The executable is stored in ~/Applications/aseprite. Have fun!
+The executable is stored in $XDG_DATA_HOME/aseprite. Have fun!
 
-## Integrating with your desktop environment
-Download the aseprite.desktop file from this GitHub repository and move it to ~/.local/share/applications.
-Then, it should appear in your application menu!
+## How do I run Aseprite?
+This script should automatically add aseprite to your application menu and to your path.
+You should be able to launch it as you would any other software.
 
 ## Credits
 I condensed https://github.com/aseprite/aseprite/blob/main/INSTALL.md into this script.
