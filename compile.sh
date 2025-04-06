@@ -3,8 +3,14 @@
 [[ -z "${XDG_DATA_HOME}" ]] && XDG_DATA_HOME="${HOME}/.local/share"
 
 INSTALL_DIR="${XDG_DATA_HOME}/aseprite"
+BINARY_DIR="${HOME}/.local/bin"
+LAUNCHER_DIR="${XDG_DATA_HOME}/applications"
+ICON_DIR="${XDG_DATA_HOME}/icons"
 
 SIGNATURE_FILE="${INSTALL_DIR}/compile-aseprite-linux"
+BINARY_FILE="${BINARY_DIR}/aseprite"
+LAUNCHER_FILE="${LAUNCHER_DIR}/aseprite.desktop"
+ICON_FILE="${ICON_DIR}/aseprite.png"
 
 if [[ -f "${SIGNATURE_FILE}" ]] ; then
     read -e -p "aseprite already installed. update? (y/n): " choice
@@ -13,6 +19,8 @@ if [[ -f "${SIGNATURE_FILE}" ]] ; then
 else
     [[ -d "${INSTALL_DIR}" ]] \
         && { echo "aseprite already installed to '${INSTALL_DIR}'. aborting" >&2 ; exit 1 ; }
+    { [[ -f "${LAUNCHER_FILE}" ]] || [[ -f "${BINARY_FILE}" ]] || [[ -f "${ICON_FILE}" ]] ; } \
+        && { echo "other aseprite data already installed to home directory. aborting" >&2 ; exit 1 ; }
 fi
 
 WORK_DIR=$(mktemp -d -t 'compile-aseprite-linux-XXXXX') \
@@ -21,7 +29,7 @@ WORK_DIR=$(mktemp -d -t 'compile-aseprite-linux-XXXXX') \
 cleanup() {
     code=$?
     echo "cleaning up"
-    pushd -0
+    pushd -0 >/dev/null
     dirs -c
     rm -rf "${WORK_DIR}"
     exit "${code}"
@@ -34,13 +42,7 @@ pushd "${WORK_DIR}"
 # Check distro
 os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
 
-# Download skia
-wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip
-mkdir ./skia
-unzip Skia-Linux-Release-x64-libc++.zip -d ./skia
-
 echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
-
 
 # Assign package manager to a variable
 if [[ "$os_name" == *"Fedora"* ]]; then
@@ -63,6 +65,11 @@ fi
 # Clone aseprite
 git clone --recursive https://github.com/aseprite/aseprite.git --depth=1
 
+# Download skia
+wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip
+mkdir ./skia
+unzip Skia-Linux-Release-x64-libc++.zip -d ./skia
+
 echo "Finished downloading! Time to compile."
 
 mkdir aseprite/build
@@ -84,11 +91,15 @@ popd
 
 rm -rf "${INSTALL_DIR}" \
     || { echo "unable to clean up old install" >&2 ; exit 1 ; }
-mkdir -p "${INSTALL_DIR}" \
+mkdir -p "${INSTALL_DIR}" "${BINARY_DIR}" "${LAUNCHER_DIR}" "${ICON_DIR}" \
     || { echo "unable to create install folder" >&2 ; exit 1 ; }
 
 mv aseprite/build/bin/* "${INSTALL_DIR}"
+
 touch "${SIGNATURE_FILE}"
+ln -s "${INSTALL_DIR}/aseprite" "${BINARY_FILE}"
+ln -s "${INSTALL_DIR}/data/icons/ase256.png" "${ICON_FILE}"
+cp "${WORK_DIR}/aseprite/src/desktop/linux/aseprite.desktop" "${LAUNCHER_FILE}"
 
 echo "Done compiling!"
 echo "The executable is stored in '${INSTALL_DIR}'. Have fun!"
