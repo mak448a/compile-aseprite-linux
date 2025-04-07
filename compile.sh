@@ -1,8 +1,5 @@
 #!/bin/bash
 
-os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
-
-
 # Return to home directory
 cd
 
