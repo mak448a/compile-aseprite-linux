@@ -18,4 +18,4 @@ Download the aseprite.desktop file from this GitHub repository and move it to ~/
 Then, it should appear in your application menu!
 
 ## Credits
-I condensed https://github.com/aseprite/aseprite/blob/main/INSTALL.md into this script.
+I used [Aseprite's official compilation guide](https://github.com/aseprite/aseprite/blob/main/INSTALL.md) to make this script.
