@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Check distro
-os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
-
-
 # Return to home directory
 cd
 
@@ -17,24 +13,74 @@ rm Skia-Linux-Release-x64-libc++.zip
 
 echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
 
+# Check distro
+os_name=$(grep '^ID=' /etc/os-release --max-count 1 | cut -c4-)
+os_like=$(grep '^ID_LIKE=' /etc/os-release --max-count 1 | cut -c9-)
+os_variant=$(grep '^VARIANT_ID=' /etc/os-release --max-count 1 | cut -c12-)
 
-# Assign package manager to a variable
-if [[ "$os_name" == *"Fedora"* ]]; then
-    package_man="dnf"
-elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name == *"Mint"* ]]; then
-    package_man="apt"
-else
-    echo "Unsupported distro! If your distro supports APT or DNF, please manually set os_name='Ubuntu' for apt, or os_name='Fedora' at the top of the file. Copy the appropriate command and replace the 'os_name=' with the proper command. You can also open an issue ticket."
-    echo "Stopped installation! Please remove ~/deps."
-    exit 1
+# replace 'ubuntu' with 'debian' and 'rhel' with 'fedora' (among others)
+# this has some weird issues on some distros where they list multiple possibilities
+# in case of multiple possiblilities, drop the declaration altogether
+# https://github.com/which-distro/os-release/
+[[ "$os_like" =~ [[:space:]]+ ]] && os_like=''
+[[ "$os_like" != '' ]] && os_name="$os_like"
+
+case "$os_name" in
+'debian' | 'ubuntu' | 'linuxmint')
+    package_man='apt'
+    ;;
+'fedora')
+    case "$os_variant" in
+    'kinoite' | 'silverblue')
+        package_man='unsupported'
+        ;;
+    *)
+        package_man='dnf'
+        ;;
+    esac
+    ;;
+'arch')
+    package_man='unsupported' # for now
+    ;;
+*)
+    package_man="unknown"
+    ;;
+esac
+
+# user override
+if [[ "$PACKAGE_MANAGER" != "" ]] ; then
+    package_man="$PACKAGE_MANAGER"
 fi
+
+package_manager_text="Currently this script only supports apt and dnf, and it appears that your system is unsupported.
+If you believe this is a mistake, please re-run this script with environmental variable 'PACKAGE_MANAGER=apt' or 'PACKAGE_MANAGER=dnf'.
+You can also open an issue ticket."
 
 # Install dependencies
-if [[ $package_man == "dnf" ]]; then
-  sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel git
-elif [[ $package_man == "apt" ]]; then
-  sudo apt-get install -y g++ clang libc++-dev libc++abi-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev git
-fi
+case "$package_man" in
+'dnf')
+    sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel git
+    ;;
+'apt')
+    sudo apt-get install -y g++ clang libc++-dev libc++abi-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev git
+    ;;
+'pacman') # untested
+    sudo pacman -S gcc clang libc++ cmake ninja libx11 libxcursor mesa-libgl fontconfig libwebp
+    ;;
+'zypper') # untested
+    sudo zypper install gcc-c++ clang libc++-devel libc++abi-devel cmake ninja libX11-devel libXcursor-devel libXi-devel Mesa-libGL-devel fontconfig-devel
+    ;;
+'unsupported')
+    echo "Unsupported distro!"
+    echo "$package_manager_text"
+    exit 1
+    ;;
+*)
+    echo "Unknown distro!"
+    echo "$package_manager_text"
+    exit 1
+    ;;
+esac
 
 # Clone aseprite
 git clone --recursive https://github.com/aseprite/aseprite.git --depth=1
