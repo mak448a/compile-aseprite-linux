@@ -20,6 +20,7 @@ os_variant=$(grep '^VARIANT_ID=' /etc/os-release --max-count 1 | cut -c12-)
 
 # replace 'ubuntu' with 'debian' and 'rhel' with 'fedora' (among others)
 # this has some weird issues on some distros where they list multiple possibilities
+# in case of multiple possiblilities, drop the declaration altogether
 # https://github.com/which-distro/os-release/
 [[ "$os_like" =~ [[:space:]]+ ]] && os_like=''
 [[ "$os_like" != '' ]] && os_name="$os_like"
