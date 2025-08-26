@@ -11,7 +11,7 @@ Please consider giving this repo a star if you found it helpful.
 If you encounter any errors, please report it in the issues tab.
 
 ## Where is the executable?
-The executable is stored in $XDG_DATA_HOME/aseprite. Have fun!
+The executable is stored in ~/aseprite. Have fun!
 
 ## How do I run Aseprite?
 This script should automatically add aseprite to your application menu and to your path.
