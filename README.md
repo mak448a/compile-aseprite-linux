@@ -14,8 +14,8 @@ If you encounter any errors, please report it in the issues tab.
 The executable is stored in ~/aseprite. Have fun!
 
 ## How do I run Aseprite?
-This script should automatically add aseprite to your application menu and to your path.
-You should be able to launch it as you would any other software.
+This script automatically adds Aseprite to your desktop environment's application launcher and to $PATH.
+You can launch it in your desktop environment's application launcher or by entering "aseprite" in the terminal.
 
 ## Credits
 I condensed https://github.com/aseprite/aseprite/blob/main/INSTALL.md into this script.
