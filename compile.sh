@@ -57,9 +57,9 @@ fi
 
 # Install dependencies
 if [[ $package_man == "dnf" ]]; then
-    sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel git
+    sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel
 elif [[ $package_man == "apt" ]]; then
-    sudo apt-get install -y g++ clang libc++-dev libc++abi-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev git
+    sudo apt-get install -y g++ clang cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
 fi
 
 [[ $? == 0 ]] \
@@ -70,9 +70,9 @@ git clone --recursive https://github.com/aseprite/aseprite.git --depth=1 \
     || { echo "unable to clone code base" >&2 ; exit 1 ; }
 
 # Download skia
-wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip \
+wget https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Linux-Release-x64.zip \
     || { echo "failed to download skia" >&2 ; exit 1 ; }
-mkdir ./skia && unzip Skia-Linux-Release-x64-libc++.zip -d ./skia \
+mkdir ./skia && unzip Skia-Linux-Release-x64.zip -d ./skia \
     || { echo "failed to extract skia" >&2 ; exit 1 ; }
 
 echo "Finished downloading! Time to compile."

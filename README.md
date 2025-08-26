@@ -18,4 +18,4 @@ This script automatically adds Aseprite to your desktop environment's applicatio
 You can launch it in your desktop environment's application launcher or by entering "aseprite" in the terminal.
 
 ## Credits
-I condensed https://github.com/aseprite/aseprite/blob/main/INSTALL.md into this script.
+I used [Aseprite's official compilation guide](https://github.com/aseprite/aseprite/blob/main/INSTALL.md) to make this script.
