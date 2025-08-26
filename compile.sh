@@ -8,7 +8,7 @@ os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"'
 cd
 
 # Download skia
-wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip
+wget https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Linux-Release-x64.zip
 mkdir -p ~/deps/skia
 unzip Skia-Linux-Release-x64-libc++.zip -d ~/deps/skia
 # Clean up zip file
