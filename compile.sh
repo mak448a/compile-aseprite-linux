@@ -14,7 +14,7 @@ unzip Skia-Linux-Release-x64-libc++.zip -d ~/deps/skia
 # Clean up zip file
 rm Skia-Linux-Release-x64-libc++.zip
 
-
+echo "Warning! Make sure you don't have any directories named aseprite, deps, or Applications/aseprite in your home folder!"
 echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
 
 
