@@ -23,15 +23,23 @@ else
         && { echo "other aseprite data already installed to home directory. aborting" >&2 ; exit 1 ; }
 fi
 
-WORK_DIR=$(mktemp -d -t 'compile-aseprite-linux-XXXXX') \
-    || { echo "unable to create temp folder" >&2 ; exit 1 ; }
+if [[ -z "${TESTING}" ]] ; then
+    WORK_DIR=$(mktemp -d -t 'compile-aseprite-linux-XXXXX') \
+        || { echo "unable to create temp folder" >&2 ; exit 1 ; }
+else
+    WORK_DIR='compile-aseprite-linux-testing'
+    mkdir -p "${WORK_DIR}"
+fi
+WORK_DIR="$(realpath "${WORK_DIR}")"
 
 cleanup() {
     code=$?
     echo "cleaning up"
     pushd -0 >/dev/null
     dirs -c
-    rm -rf "${WORK_DIR}"
+    if [[ -z "${TESTING}" ]] ; then
+        rm -rf "${WORK_DIR}"
+    fi
     exit "${code}"
 }
 
@@ -51,15 +59,17 @@ elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name
     package_man="apt"
 else
     echo "Unsupported distro! If your distro supports APT or DNF, please manually set os_name='Ubuntu' for apt, or os_name='Fedora' at the top of the file. Copy the appropriate command and replace the 'os_name=' with the proper command. You can also open an issue ticket."
-    echo "Stopped installation! Please remove ~/deps."
+    echo "Stopped installation!"
     exit 1
 fi
 
 # Install dependencies
 if [[ $package_man == "dnf" ]]; then
-    sudo dnf install -y gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel
+    sudo dnf install -y git \
+        gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel
 elif [[ $package_man == "apt" ]]; then
-    sudo apt-get install -y g++ clang cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
+    sudo apt-get install -y git\
+        g++ clang cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
 fi
 
 [[ $? == 0 ]] \
@@ -70,9 +80,9 @@ git clone --recursive https://github.com/aseprite/aseprite.git --depth=1 \
     || { echo "unable to clone code base" >&2 ; exit 1 ; }
 
 # Download skia
-wget https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Linux-Release-x64.zip \
+wget -O skia.zip https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Linux-Release-x64.zip \
     || { echo "failed to download skia" >&2 ; exit 1 ; }
-mkdir ./skia && unzip Skia-Linux-Release-x64.zip -d ./skia \
+mkdir ./skia && unzip skia.zip -d ./skia \
     || { echo "failed to extract skia" >&2 ; exit 1 ; }
 
 echo "Finished downloading! Time to compile."
@@ -85,8 +95,8 @@ export CC=clang
 export CXX=clang++
 cmake \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DCMAKE_CXX_FLAGS:STRING=-stdlib=libc++ \
-    -DCMAKE_EXE_LINKER_FLAGS:STRING=-stdlib=libc++ \
+    -DCMAKE_CXX_FLAGS:STRING=-stdlib=libstdc++ \
+    -DCMAKE_EXE_LINKER_FLAGS:STRING=-stdlib=libstdc++ \
     -DLAF_BACKEND=skia \
     -DSKIA_DIR="${WORK_DIR}/skia" \
     -DSKIA_LIBRARY_DIR="${WORK_DIR}/skia/out/Release-x64" \
