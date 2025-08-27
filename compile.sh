@@ -4,7 +4,7 @@
 
 INSTALL_DIR="${XDG_DATA_HOME}/aseprite"
 BINARY_DIR="${HOME}/.local/bin"
-LAUNCHER_DIR="${XDG_DATA_HOME}/.local/share/applications"
+LAUNCHER_DIR="${XDG_DATA_HOME}/applications"
 ICON_DIR="${XDG_DATA_HOME}/icons"
 
 SIGNATURE_FILE="${INSTALL_DIR}/compile-aseprite-linux"
