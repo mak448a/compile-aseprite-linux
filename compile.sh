@@ -13,19 +13,19 @@ LAUNCHER_FILE="${LAUNCHER_DIR}/aseprite.desktop"
 ICON_FILE="${ICON_DIR}/aseprite.png"
 
 if [[ -f "${SIGNATURE_FILE}" ]] ; then
-    read -e -p "aseprite already installed. update? (y/n): " choice
+    read -e -p "Aseprite already installed. Update? (y/n): " choice
     [[ "${choice}" == [Yy]* ]] \
         || exit 0
 else
     [[ -d "${INSTALL_DIR}" ]] \
-        && { echo "aseprite already installed to '${INSTALL_DIR}'. aborting" >&2 ; exit 1 ; }
+        && { echo "Aseprite already installed to '${INSTALL_DIR}'. Aborting" >&2 ; exit 1 ; }
     { [[ -f "${LAUNCHER_FILE}" ]] || [[ -f "${BINARY_FILE}" ]] || [[ -f "${ICON_FILE}" ]] ; } \
-        && { echo "other aseprite data already installed to home directory. aborting" >&2 ; exit 1 ; }
+        && { echo "Other aseprite data already installed to home directory. Aborting" >&2 ; exit 1 ; }
 fi
 
 if [[ -z "${TESTING}" ]] ; then
     WORK_DIR=$(mktemp -d -t 'compile-aseprite-linux-XXXXX') \
-        || { echo "unable to create temp folder" >&2 ; exit 1 ; }
+        || { echo "Unable to create temp folder" >&2 ; exit 1 ; }
 else
     WORK_DIR='compile-aseprite-linux-testing'
     mkdir -p "${WORK_DIR}"
@@ -34,7 +34,7 @@ WORK_DIR="$(realpath "${WORK_DIR}")"
 
 cleanup() {
     code=$?
-    echo "cleaning up"
+    echo "Cleaning up."
     pushd -0 >/dev/null
     dirs -c
     if [[ -z "${TESTING}" ]] ; then
@@ -58,7 +58,7 @@ if [[ "$os_name" == *"Fedora"* ]]; then
 elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name == *"Mint"* ]]; then
     package_man="apt"
 else
-    echo "Unsupported distro! If your distro supports APT or DNF, please manually set os_name='Ubuntu' for apt, or os_name='Fedora' at the top of the file. Copy the appropriate command and replace the 'os_name=' with the proper command. You can also open an issue ticket."
+    echo "Unsupported distro! If your distro supports APT or DNF, please manually modify the script to set os_name='Ubuntu' for apt, or os_name='Fedora'. You can also open an issue ticket."
     echo "Stopped installation!"
     exit 1
 fi
@@ -73,22 +73,22 @@ elif [[ $package_man == "apt" ]]; then
 fi
 
 [[ $? == 0 ]] \
-    || { echo "failed to install dependencies" >&2 ; exit 1 ; }
+    || { echo "Failed to install dependencies." >&2 ; exit 1 ; }
 
 # Clone aseprite
 git clone --recursive https://github.com/aseprite/aseprite.git --depth=1 \
-    || { echo "unable to clone code base" >&2 ; exit 1 ; }
+    || { echo "Unable to clone Aseprite repo." >&2 ; exit 1 ; }
 
 # Download skia
 wget -O skia.zip https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Linux-Release-x64.zip \
-    || { echo "failed to download skia" >&2 ; exit 1 ; }
+    || { echo "Failed to download skia." >&2 ; exit 1 ; }
 mkdir ./skia && unzip skia.zip -d ./skia \
-    || { echo "failed to extract skia" >&2 ; exit 1 ; }
+    || { echo "Failed to extract skia." >&2 ; exit 1 ; }
 
 echo "Finished downloading! Time to compile."
 
 mkdir aseprite/build \
-    || { echo "failed create build folder" >&2 ; exit 1 ; }
+    || { echo "Failed create build folder." >&2 ; exit 1 ; }
 pushd aseprite/build
 
 export CC=clang
@@ -103,24 +103,24 @@ cmake \
     -DSKIA_LIBRARY="${WORK_DIR}/skia/out/Release-x64/libskia.a" \
     -G Ninja \
     .. \
-    || { echo "configuration failed" >&2 ; exit 1 ; }
+    || { echo "Configuration failed." >&2 ; exit 1 ; }
 
 ninja aseprite \
-    || { echo "compilation failed" >&2 ; exit 1 ; }
+    || { echo "Compilation failed." >&2 ; exit 1 ; }
 
 popd
 
 rm -rf "${INSTALL_DIR}" \
-    || { echo "unable to clean up old install" >&2 ; exit 1 ; }
+    || { echo "Unable to clean up old install." >&2 ; exit 1 ; }
 mkdir -p "${INSTALL_DIR}" "${BINARY_DIR}" "${LAUNCHER_DIR}" "${ICON_DIR}" \
-    || { echo "unable to create install folder" >&2 ; exit 1 ; }
+    || { echo "Unable to create install folder." >&2 ; exit 1 ; }
 
 { mv aseprite/build/bin/* "${INSTALL_DIR}" \
     && touch "${SIGNATURE_FILE}" \
     && ln -sf "${INSTALL_DIR}/aseprite" "${BINARY_FILE}" \
     && ln -sf "${INSTALL_DIR}/data/icons/ase256.png" "${ICON_FILE}" \
     && cp -f "${WORK_DIR}/aseprite/src/desktop/linux/aseprite.desktop" "${LAUNCHER_FILE}" \
-; } || { echo "failed to complete install" >&2 ; exit 1 ; }
+; } || { echo "Failed to complete install." >&2 ; exit 1 ; }
 
 echo "Done compiling!"
 echo "The executable is stored in '${INSTALL_DIR}'. Have fun!"
