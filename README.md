@@ -8,7 +8,7 @@ Go to your downloads folder and open up a terminal window. Type in these command
 
 Please consider giving this repo a star if you found it helpful.
 
-If you encounter any errors, please report it in the issues tab.
+If you encounter any errors, please report them in the issues tab.
 
 ## Where is the executable?
 The executable is stored in ~/aseprite. Have fun!
