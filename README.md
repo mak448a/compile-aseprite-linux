@@ -1,5 +1,8 @@
 # Compile Aseprite on Linux
-Here's how to compile aseprite for free on Fedora, Ubuntu, and more! If you want to support the developers, buy it on the official website: https://aseprite.org
+Here's how to compile aseprite for free on Fedora, Ubuntu, Arch,lockState(), 0);
+Line19added
+  +  
+    } and more! If you want to support the developers, buy it on the official website: https://aseprite.org
 
 Just run [this script.](compile.sh) Click view raw, and then press CTRL+S to save the file.
 Go to your downloads folder and open up a terminal window. Type in these commands:
