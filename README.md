@@ -3,8 +3,9 @@ Here's how to compile aseprite for free on Fedora, Ubuntu, and more! If you want
 
 To run the script, [download the script here](compile.sh) by clicking view raw and then CTRL+S to save the file.
 Go to your downloads folder and open up a terminal window. Type in these commands:
-`chmod +x compile.sh`
-`./compile.sh`
+```shell
+chmod +x compile.sh && ./compile.sh
+```
 
 Please consider giving this repo a star if you found it helpful.
 
