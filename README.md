@@ -8,14 +8,14 @@ Go to your downloads folder and open up a terminal window. Type in these command
 
 Please consider giving this repo a star if you found it helpful.
 
-If you encounter any errors, please report it in the issues tab.
+If you encounter any errors, please report them in the issues tab.
 
 ## Where is the executable?
-The executable is stored in ~/Applications/aseprite. Have fun!
+The executable is stored in ~/aseprite. Have fun!
 
-## Integrating with your desktop environment
-Download the aseprite.desktop file from this GitHub repository and move it to ~/.local/share/applications.
-Then, it should appear in your application menu!
+## How do I run Aseprite?
+This script automatically adds Aseprite to your desktop environment's application launcher and to $PATH.
+You can launch it from your desktop environment's application launcher or by entering `aseprite` in the terminal.
 
 ## Credits
 I used [Aseprite's official compilation guide](https://github.com/aseprite/aseprite/blob/main/INSTALL.md) to make this script.

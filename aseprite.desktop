@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=Aseprite
-GenericName=Pixel Art Editor
-Exec=~/Applications/aseprite/aseprite
-Terminal=false
-Icon=~/Applications/aseprite/data/icons/ase256.png
-Type=Application
-Categories=Graphics
-StartupWMClass=aseprite
