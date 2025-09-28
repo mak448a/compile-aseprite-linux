@@ -69,7 +69,7 @@ if [[ $package_man == "dnf" ]]; then
         gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel mesa-libGL-devel fontconfig-devel
 elif [[ $package_man == "apt" ]]; then
     sudo apt-get install -y git\
-        g++ clang cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
+        g++ clang cmake ninja-build libx11-dev libxcursor-dev libxi-dev libxrandr-dev libgl1-mesa-dev libfontconfig1-dev
 fi
 
 [[ $? == 0 ]] \
