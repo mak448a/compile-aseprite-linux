@@ -91,7 +91,7 @@ fi
 pushd aseprite
 
 # Compile Aseprite with the provided build.sh script in the source code
-./build.sh \
+./build.sh --auto \
     || { echo "Compilation failed." >&2 ; exit 1 ; }
 
 popd
