@@ -81,11 +81,9 @@ fi
 
 # Install dependencies
 if [[ $package_man == "dnf" ]]; then
-    sudo dnf install -y git \
-        gcc-c++ clang libcxx-devel cmake ninja-build libX11-devel libXcursor-devel libXi-devel libXrandr-devel mesa-libGL-devel fontconfig-devel
+    cat aseprite/INSTALL.md | grep -m1 "sudo dnf install" | bash 
 elif [[ $package_man == "apt" ]]; then
-    sudo apt-get install -y git\
-        g++ clang cmake ninja-build libx11-dev libxcursor-dev libxi-dev libxrandr-dev libgl1-mesa-dev libfontconfig1-dev
+    cat aseprite/INSTALL.md | grep -m1 "sudo apt-get install" | bash
 fi
 
 [[ $? == 0 ]] \
