@@ -49,7 +49,7 @@ pushd "${WORK_DIR}"
 
 # Download latest version of aseprite
 # SOURCE_CODE is a link like https://github.com/aseprite/aseprite/releases/download/vX.X.X.X/Aseprite-vX.X.X.X-Source.zip
-SOURCE_CODE=$(curl -s "https://api.github.com/repos/aseprite/aseprite/releases/latest" | awk '/browser_download_url/ {print $2}') | tr -d \"
+SOURCE_CODE=$(curl -s "https://api.github.com/repos/aseprite/aseprite/releases/latest" | awk '/browser_download_url/ {print $2}' | tr -d \")
 
 wget -q $SOURCE_CODE \
     || { echo "Unable to download the latest version of Aseprite." >&2 ; exit 1 ; }
