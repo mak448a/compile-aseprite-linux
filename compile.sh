@@ -47,6 +47,22 @@ trap "cleanup" EXIT
 
 pushd "${WORK_DIR}"
 
+# Download latest version of aseprite
+# SOURCE_CODE is a link like https://github.com/aseprite/aseprite/releases/download/vX.X.X.X/Aseprite-vX.X.X.X-Source.zip
+SOURCE_CODE=$(curl -s "https://api.github.com/repos/aseprite/aseprite/releases/latest" | awk '/browser_download_url/ {print $2}') | tr -d \"
+
+wget -q $SOURCE_CODE \
+    || { echo "Unable to download the latest version of Aseprite." >&2 ; exit 1 ; }
+echo "Aseprite downloaded from: ${SOURCE_CODE}"
+
+# FILE is a filename like Aseprite-vX.X.X.X-Source.zip
+FILE=$(echo $SOURCE_CODE | awk -F/ '{print $NF}')
+
+# Unzip the source code
+unzip -q $FILE -d aseprite \
+    || { echo "Unable to decompress the source code." >&2 ; exit 1 ; }
+echo "${FILE} decompresed."
+
 # Check distro
 os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
 
@@ -74,22 +90,6 @@ fi
 
 [[ $? == 0 ]] \
     || { echo "Failed to install dependencies." >&2 ; exit 1 ; }
-
-# Download latest version of aseprite
-# SOURCE_CODE is a link like https://github.com/aseprite/aseprite/releases/download/vX.X.X.X/Aseprite-vX.X.X.X-Source.zip
-SOURCE_CODE=$(curl -s "https://api.github.com/repos/aseprite/aseprite/releases/latest" | awk '/browser_download_url/ {print $2}') | tr -d \"
-
-wget -q $SOURCE_CODE \
-    || { echo "Unable to download the latest version of Aseprite." >&2 ; exit 1 ; }
-echo "Aseprite downloaded from: ${SOURCE_CODE}"
-
-# FILE is a filename like Aseprite-vX.X.X.X-Source.zip
-FILE=$(echo $SOURCE_CODE | awk -F/ '{print $NF}')
-
-# Unzip the source code
-unzip -q $FILE -d aseprite \
-    || { echo "Unable to decompress the source code." >&2 ; exit 1 ; }
-echo "${FILE} decompresed."
 
 # Download skia
 wget -O skia.zip https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Linux-Release-x64.zip \
