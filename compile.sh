@@ -89,33 +89,10 @@ fi
 [[ $? == 0 ]] \
     || { echo "Failed to install dependencies." >&2 ; exit 1 ; }
 
-# Download skia
-wget -O skia.zip https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Linux-Release-x64.zip \
-    || { echo "Failed to download skia." >&2 ; exit 1 ; }
-mkdir ./skia && unzip skia.zip -d ./skia \
-    || { echo "Failed to extract skia." >&2 ; exit 1 ; }
+pushd aseprite
 
-echo "Finished downloading! Time to compile."
-
-mkdir aseprite/build \
-    || { echo "Failed create build folder." >&2 ; exit 1 ; }
-pushd aseprite/build
-
-export CC=clang
-export CXX=clang++
-cmake \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DCMAKE_CXX_FLAGS:STRING=-stdlib=libstdc++ \
-    -DCMAKE_EXE_LINKER_FLAGS:STRING=-stdlib=libstdc++ \
-    -DLAF_BACKEND=skia \
-    -DSKIA_DIR="${WORK_DIR}/skia" \
-    -DSKIA_LIBRARY_DIR="${WORK_DIR}/skia/out/Release-x64" \
-    -DSKIA_LIBRARY="${WORK_DIR}/skia/out/Release-x64/libskia.a" \
-    -G Ninja \
-    .. \
-    || { echo "Configuration failed." >&2 ; exit 1 ; }
-
-ninja aseprite \
+# Compile Aseprite with the provided build.sh script in the source code
+./build.sh \
     || { echo "Compilation failed." >&2 ; exit 1 ; }
 
 popd
