@@ -109,5 +109,10 @@ mkdir -p "${INSTALL_DIR}" "${BINARY_DIR}" "${LAUNCHER_DIR}" "${ICON_DIR}" \
     && cp -f "${WORK_DIR}/aseprite/src/desktop/linux/aseprite.desktop" "${LAUNCHER_FILE}" \
 ; } || { echo "Failed to complete install." >&2 ; exit 1 ; }
 
+# Replace the values on the .desktop file to the correct ones
+sed -i "s|$(grep -m1 TryExec= "${LAUNCHER_FILE}")|TryExec=$BINARY_FILE|g" "${LAUNCHER_FILE}"
+sed -i "s|$(grep -m1 Exec= "${LAUNCHER_FILE}")|Exec=$BINARY_FILE %U|g" "${LAUNCHER_FILE}"
+sed -i "s|$(grep -m1 Icon= "${LAUNCHER_FILE}")|Icon=$ICON_FILE|g" "${LAUNCHER_FILE}"
+
 echo "Done compiling!"
 echo "The executable is stored in '${INSTALL_DIR}'. Have fun!"
