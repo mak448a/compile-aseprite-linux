@@ -5,12 +5,11 @@
 INSTALL_DIR="${XDG_DATA_HOME}/aseprite"
 BINARY_DIR="${HOME}/.local/bin"
 LAUNCHER_DIR="${XDG_DATA_HOME}/applications"
-ICON_DIR="${XDG_DATA_HOME}/icons"
 
 SIGNATURE_FILE="${INSTALL_DIR}/compile-aseprite-linux"
 BINARY_FILE="${BINARY_DIR}/aseprite"
 LAUNCHER_FILE="${LAUNCHER_DIR}/aseprite.desktop"
-ICON_FILE="${ICON_DIR}/aseprite.png"
+ICON_FILE="${INSTALL_DIR}/data/icons/ase256.png"
 
 if [[ -f "${SIGNATURE_FILE}" ]] ; then
     read -e -p "Aseprite already installed. Update? (y/n): " choice
@@ -19,7 +18,7 @@ if [[ -f "${SIGNATURE_FILE}" ]] ; then
 else
     [[ -d "${INSTALL_DIR}" ]] \
         && { echo "Aseprite already installed to '${INSTALL_DIR}'. Aborting" >&2 ; exit 1 ; }
-    { [[ -f "${LAUNCHER_FILE}" ]] || [[ -f "${BINARY_FILE}" ]] || [[ -f "${ICON_FILE}" ]] ; } \
+    { [[ -f "${LAUNCHER_FILE}" ]] || [[ -f "${BINARY_FILE}" ]] ; } \
         && { echo "Other aseprite data already installed to home directory. Aborting" >&2 ; exit 1 ; }
 fi
 
@@ -99,13 +98,12 @@ popd
 
 rm -rf "${INSTALL_DIR}" \
     || { echo "Unable to clean up old install." >&2 ; exit 1 ; }
-mkdir -p "${INSTALL_DIR}" "${BINARY_DIR}" "${LAUNCHER_DIR}" "${ICON_DIR}" \
+mkdir -p "${INSTALL_DIR}" "${BINARY_DIR}" "${LAUNCHER_DIR}" \
     || { echo "Unable to create install folder." >&2 ; exit 1 ; }
 
 { mv aseprite/build/bin/* "${INSTALL_DIR}" \
     && touch "${SIGNATURE_FILE}" \
     && ln -sf "${INSTALL_DIR}/aseprite" "${BINARY_FILE}" \
-    && ln -sf "${INSTALL_DIR}/data/icons/ase256.png" "${ICON_FILE}" \
     && cp -f "${WORK_DIR}/aseprite/src/desktop/linux/aseprite.desktop" "${LAUNCHER_FILE}" \
 ; } || { echo "Failed to complete install." >&2 ; exit 1 ; }
 
