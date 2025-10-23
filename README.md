@@ -11,7 +11,7 @@ Please consider giving this repo a star if you found it helpful.
 If you encounter any errors, please report them in the issues tab.
 
 ## Where is the executable?
-The executable is stored in ~/aseprite. Have fun!
+The executable is stored in ~/.local/share/aseprite. Have fun!
 
 ## How do I run Aseprite?
 This script automatically adds Aseprite to your desktop environment's application launcher and to $PATH.
