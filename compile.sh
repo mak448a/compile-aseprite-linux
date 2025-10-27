@@ -88,7 +88,7 @@ elif [[ $package_man == "apt" ]]; then
 elif [[ $package_man == "pacman" ]]; then
     deps=$(cat aseprite/INSTALL.md | grep -m1 "sudo pacman -S")
     deps=${deps/-S/-S --needed --noconfirm} 
-    bash -c $deps
+    bash -c "$deps"
 
 fi
 
