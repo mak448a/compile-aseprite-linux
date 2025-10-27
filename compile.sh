@@ -72,6 +72,8 @@ if [[ "$os_name" == *"Fedora"* ]]; then
     package_man="dnf"
 elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name == *"Mint"* ]]; then
     package_man="apt"
+elif [[ $os_name == *"Arch"* ]] || [[ $os_name == *"Manjaro"* ]]; then
+    package_man="pacman"
 else
     echo "Unsupported distro! If your distro supports APT or DNF, please manually modify the script to set os_name='Ubuntu' for apt, or os_name='Fedora'. You can also open an issue ticket."
     echo "Stopped installation!"
@@ -83,6 +85,8 @@ if [[ $package_man == "dnf" ]]; then
     cat aseprite/INSTALL.md | grep -m1 "sudo dnf install" | bash 
 elif [[ $package_man == "apt" ]]; then
     cat aseprite/INSTALL.md | grep -m1 "sudo apt-get install" | bash
+elif [[ $package_man == "pacman" ]]; then
+    cat aseprite/INSTALL.md | grep -m1 "sudo pacman -S" | bash
 fi
 
 [[ $? == 0 ]] \
