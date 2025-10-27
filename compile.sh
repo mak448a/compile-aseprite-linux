@@ -12,7 +12,7 @@ LAUNCHER_FILE="${LAUNCHER_DIR}/aseprite.desktop"
 ICON_FILE="${INSTALL_DIR}/data/icons/ase256.png"
 
 if [[ -f "${SIGNATURE_FILE}" ]] ; then
-    read -e -p "Aseprite already installed. Update? (y/n): " choice
+    read -e -p "Aseprite already installed. Update? (y/N): " choice
     [[ "${choice}" == [Yy]* ]] \
         || exit 0
 else
@@ -59,13 +59,11 @@ FILE=$(echo $SOURCE_CODE | awk -F/ '{print $NF}')
 
 # Unzip the source code
 unzip -q $FILE -d aseprite \
-    || { echo "Unable to decompress the source code." >&2 ; exit 1 ; }
+    || { echo "Unable to decompress the source code, make sure you have the unzip package installed." >&2 ; exit 1 ; }
 echo "${FILE} decompresed."
 
 # Check distro
 os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
-
-echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
 
 # Assign package manager to a variable
 if [[ "$os_name" == *"Fedora"* ]]; then
@@ -75,10 +73,12 @@ elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name
 elif [[ $os_name == *"Arch"* ]] || [[ $os_name == *"Manjaro"* ]]; then
     package_man="pacman"
 else
-    echo "Unsupported distro! If your distro supports APT or DNF, please manually modify the script to set os_name='Ubuntu' for apt, or os_name='Fedora'. You can also open an issue ticket."
+    echo "Unsupported distro! If your distro supports APT, DNF or PACMAN, please manually modify the script to set os_name='Ubuntu' for apt, os_name='Fedora' for dnf or os_name='Arch' for pacman. You can also open an issue ticket."
     echo "Stopped installation!"
     exit 1
 fi
+
+echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
 
 # Install dependencies
 if [[ $package_man == "dnf" ]]; then
