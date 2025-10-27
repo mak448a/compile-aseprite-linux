@@ -86,7 +86,10 @@ if [[ $package_man == "dnf" ]]; then
 elif [[ $package_man == "apt" ]]; then
     cat aseprite/INSTALL.md | grep -m1 "sudo apt-get install" | bash
 elif [[ $package_man == "pacman" ]]; then
-    cat aseprite/INSTALL.md | grep -m1 "sudo pacman -S" | bash
+    deps=$(cat aseprite/INSTALL.md | grep -m1 "sudo pacman -S")
+    deps=${deps/-S/-S --needed --noconfirm} 
+    bash -c $deps
+
 fi
 
 [[ $? == 0 ]] \
