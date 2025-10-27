@@ -12,7 +12,7 @@ LAUNCHER_FILE="${LAUNCHER_DIR}/aseprite.desktop"
 ICON_FILE="${INSTALL_DIR}/data/icons/ase256.png"
 
 if [[ -f "${SIGNATURE_FILE}" ]] ; then
-    read -e -p "Aseprite already installed. Update? (y/n): " choice
+    read -e -p "Aseprite already installed. Update? (y/N): " choice
     [[ "${choice}" == [Yy]* ]] \
         || exit 0
 else
@@ -59,30 +59,37 @@ FILE=$(echo $SOURCE_CODE | awk -F/ '{print $NF}')
 
 # Unzip the source code
 unzip -q $FILE -d aseprite \
-    || { echo "Unable to decompress the source code." >&2 ; exit 1 ; }
+    || { echo "Unable to decompress the source code, make sure you have the unzip package installed." >&2 ; exit 1 ; }
 echo "${FILE} decompresed."
 
 # Check distro
 os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
-
-echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
 
 # Assign package manager to a variable
 if [[ "$os_name" == *"Fedora"* ]]; then
     package_man="dnf"
 elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name == *"Mint"* ]]; then
     package_man="apt"
+elif [[ $os_name == *"Arch"* ]] || [[ $os_name == *"Manjaro"* ]]; then
+    package_man="pacman"
 else
-    echo "Unsupported distro! If your distro supports APT or DNF, please manually modify the script to set os_name='Ubuntu' for apt, or os_name='Fedora'. You can also open an issue ticket."
+    echo "Unsupported distro! If your distro supports APT, DNF or PACMAN, please manually modify the script to set os_name='Ubuntu' for apt, os_name='Fedora' for dnf or os_name='Arch' for pacman. You can also open an issue ticket."
     echo "Stopped installation!"
     exit 1
 fi
+
+echo "Enter sudo password to install dependencies. This is also a good time to plug in your computer, since compiling will take a long time."
 
 # Install dependencies
 if [[ $package_man == "dnf" ]]; then
     cat aseprite/INSTALL.md | grep -m1 "sudo dnf install" | bash 
 elif [[ $package_man == "apt" ]]; then
     cat aseprite/INSTALL.md | grep -m1 "sudo apt-get install" | bash
+elif [[ $package_man == "pacman" ]]; then
+    deps=$(cat aseprite/INSTALL.md | grep -m1 "sudo pacman -S")
+    deps=${deps/-S/-S --needed --noconfirm} 
+    bash -c "$deps"
+
 fi
 
 [[ $? == 0 ]] \
@@ -91,7 +98,7 @@ fi
 pushd aseprite
 
 # Compile Aseprite with the provided build.sh script in the source code
-./build.sh --auto \
+./build.sh --auto --norun \
     || { echo "Compilation failed." >&2 ; exit 1 ; }
 
 popd
