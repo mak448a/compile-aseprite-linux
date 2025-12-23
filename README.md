@@ -1,5 +1,5 @@
 # Compile Aseprite on Linux
-Here's how to compile aseprite for free on Fedora, Ubuntu, and more! If you want to support the developers, buy it from [Aseprite.org](https://aseprite.org)!
+This is a script to automate compiling Aseprite on Ubuntu, Fedora, and more! If you want to support the developers, buy it from [Aseprite.org](https://aseprite.org)!
 
 To run the script, simply open a terminal window, and paste this:
 ```bash
@@ -7,7 +7,6 @@ bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite
 ```
 
 Please consider giving this repo a star if you found it helpful.
-
 If you encounter any errors, please report them in the issues tab.
 
 ## Where is the executable?
