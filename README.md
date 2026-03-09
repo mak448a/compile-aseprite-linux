@@ -26,7 +26,7 @@ bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite
 ```
 
 ## Immutable Distros
-For Fedora Silverblue
+For Fedora Atomic distros or forks
 ```shell
 toolbox create
 toolbox enter
