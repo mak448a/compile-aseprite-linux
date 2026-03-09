@@ -1,5 +1,5 @@
 # Compile Aseprite on Linux
-This is a script to automate compiling Aseprite on Ubuntu, Fedora, and more! If you're using an immutable distro, run it in a container with toolbox or distrobox. See section on [Immutable Distros](https://github.com/mak448a/compile-aseprite-linux/edit/main/README.md).
+This is a script to automate compiling Aseprite on Ubuntu, Fedora, and more! If you're using an immutable distro, run it in a container with toolbox or distrobox. See section on [Immutable Distros](https://github.com/mak448a/compile-aseprite-linux/blob/main/README.md#immutable-distros).
 
 If you want to support the developers, buy it from [Aseprite.org](https://aseprite.org)!
 
