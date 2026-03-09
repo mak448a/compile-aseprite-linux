@@ -1,5 +1,6 @@
 # Compile Aseprite on Linux
-This is a script to automate compiling Aseprite on Ubuntu, Fedora, and more! If you want to support the developers, buy it from [Aseprite.org](https://aseprite.org)!
+This is a script to automate compiling Aseprite on Ubuntu, Fedora, and more! If you're using an immutable distro, run it in a container with toolbox or distrobox. See [#Immutable Distros](#Immutable Distros)
+If you want to support the developers, buy it from [Aseprite.org](https://aseprite.org)!
 
 To run the script, simply open a terminal window and paste this command:
 ```bash
@@ -21,6 +22,16 @@ To remove all files created by the compile.sh script, paste this command. Your c
 ```bash
 bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite-linux/refs/heads/main/uninstall.sh')"
 ```
+
+## Immutable Distros
+For Fedora Silverblue
+`toolbox create`
+`toolbox enter`
+`bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite-linux/refs/heads/main/compile.sh')"`
+For other distros with distrobox
+`distrobox create -n box`
+`distrobox enter box`
+`bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite-linux/refs/heads/main/compile.sh')"`
 
 ## Credits
 I used [Aseprite's official compilation guide](https://github.com/aseprite/aseprite/blob/main/INSTALL.md) to make this script.
