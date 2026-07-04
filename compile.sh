@@ -66,7 +66,7 @@ echo "${FILE} decompresed."
 os_name=$(grep 'NAME=' /etc/os-release | head -n 1 | sed 's/NAME=//' | tr -d '"')
 
 # Assign package manager to a variable
-if [[ "$os_name" == *"Fedora"* ]]; then
+if [[ "$os_name" == *"Fedora"* ]] || [[ $os_name == *"Nobara"* ]]; then
     package_man="dnf"
 elif [[ $os_name == *"Debian"* ]] || [[ $os_name == *"Ubuntu"* ]] || [[ $os_name == *"Mint"* ]]; then
     package_man="apt"
