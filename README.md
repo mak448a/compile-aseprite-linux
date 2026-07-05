@@ -9,7 +9,7 @@ To run the script, simply open a terminal window and paste this command:
 bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite-linux/refs/heads/main/compile.sh')"
 ```
 
-Please consider giving this repo a star if you found it helpful.
+Please consider giving this repo a star if you found it helpful!
 If you encounter any errors, please report them in the issues tab.
 
 ## Where is the executable?
@@ -40,4 +40,5 @@ bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite
 ```
 
 ## Credits
+Special thanks to @pepev-nrt and @the-phinet for making this script how it is today!
 I used [Aseprite's official compilation guide](https://github.com/aseprite/aseprite/blob/main/INSTALL.md) to make this script.
