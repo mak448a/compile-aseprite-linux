@@ -40,5 +40,5 @@ bash -c "$(curl -sSf 'https://raw.githubusercontent.com/mak448a/compile-aseprite
 ```
 
 ## Credits
-Special thanks to @pepev-nrt and @the-phinet for making this script how it is today!
+Special thanks to [@pepev-nrt](https://github.com/pepev-nrt) and [@the-phinet](https://github.com/the-phinet) for making this script how it is today!
 I used [Aseprite's official compilation guide](https://github.com/aseprite/aseprite/blob/main/INSTALL.md) to make this script.
